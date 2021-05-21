@@ -1,0 +1,44 @@
+$azure-blue: #d3ff86;
+.popup-header {
+  margin: 1vh;
+  text-transform: uppercase;
+}
+
+.settings-popup {
+  position: absolute;
+  background-color: $azure-blue;
+  border-radius: 0.9vh;
+  border: 2px solid $azure-blue;
+  top: 11.5vh;
+  right: 40vw;
+  z-index: 1;
+}
+
+.description-title-poi {
+  color: #efc100;
+}
+
+.settings-popup-content {
+  background-color: #e6e6e9;
+  color: black;
+  margin-top: 1vh;
+  padding: 3vh;
+}
+
+.popup-button {
+  box-shadow: 0px 1vh 1.8vh rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  border: 0.2vh white solid;
+  border-radius: 0.5vh;
+  margin: 0.5vh;
+  background-color: #9e9eaa;
+  padding: 1vh;
+  min-width: 4vw;
+  text-align: center;
+  cursor: pointer;
+}
+
+.MuiPopover-paper {
+  position: initial !important;
+  min-height: 0vh !important;
+}

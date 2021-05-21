@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../actions/userActions";
+import { getUsers, popOverForm } from "../actions/userActions";
 import { DataGrid } from "@material-ui/data-grid";
-
+import EditIcon from "@material-ui/icons/EditOutlined";
+import EditUser from "./EditUser";
 const UserListComponent = () => {
+  const dispatch = useDispatch();
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
     { field: "first_name", headerName: "First name", width: 130 },
@@ -25,16 +27,41 @@ const UserListComponent = () => {
           params.getValue("last_name") || ""
         }`,
     },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 100,
+      renderCell: (params) => {
+        // const id = params.getValue("id");
+        return (
+          <div
+            style={{
+              width: "100%",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <EditIcon
+              onClick={() => {
+                //const user = userListData.data.find((u) => u.id === id);
+                handleSettingsForm(params);
+              }}
+            />
+          </div>
+        );
+      },
+    },
   ];
   const pagination = {
     page: 1,
     per_page: 10,
   };
 
-  const dispatch = useDispatch();
   const { userListData } = useSelector(({ users }) => users);
   useEffect(() => {
-    if (userListData) {
+    if (!userListData.data) {
       dispatch(
         getUsers(
           `/users?page=${pagination.page}&per_page=${pagination.per_page}`,
@@ -43,18 +70,31 @@ const UserListComponent = () => {
       );
     }
     console.log("userListData : " + userListData);
-  }, [dispatch]);
+  }, [userListData]);
 
+  const handleSettingsForm = (user) => {
+    dispatch(popOverForm(user));
+  };
   return (
     <div>
       <div style={{ maxWidth: "100%" }}>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={userListData.data}
-            columns={columns}
-            pageSize={5}
-            checkboxSelection
-          />
+          {userListData.data ? (
+            <DataGrid
+              rows={userListData.data}
+              columns={columns}
+              pageSize={5}
+              checkboxSelection
+            />
+          ) : null}
+          <EditUser />
+
+          {/*<DataGrid*/}
+          {/*rows={rows}*/}
+          {/*columns={columns}*/}
+          {/*pageSize={5}*/}
+          {/*checkboxSelection*/}
+          {/*/>*/}
         </div>
       </div>
     </div>
